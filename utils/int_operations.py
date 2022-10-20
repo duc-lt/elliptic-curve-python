@@ -2,13 +2,16 @@ from math import gcd, sqrt
 
 
 def is_prime(a):
-    if a == 0 or a == 1:
+    #if a == 0 or a == 1:
+    #    return False
+    #if a == 2 or a == 3:
+    #    return True
+    #for i in range(2, int(sqrt(a)) + 1):
+    #    if a % i == 0:
+    #        return False
+    #return True
+    if a < 2 or any(a % i == 0 for i in range(2, a)):
         return False
-    if a == 2 or a == 3:
-        return True
-    for i in range(2, int(sqrt(a)) + 1):
-        if a % i == 0:
-            return False
     return True
 
 
