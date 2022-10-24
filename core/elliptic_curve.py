@@ -6,14 +6,17 @@ from utils.mod_operations import divide, is_square, square_root
 
 class EllipticCurve:
     def __init__(self, a, b, p) -> None:
-        # if self.is_non_singular():
-        self.__a = a
-        self.__b = b
+        if self.is_non_singular(a, b):
+            self.__a = a
+            self.__b = b
+        else:
+            self.__a = 1
+            self.__b = 6
         self.__p = p
         self.__points = self.get_points()
 
-    def is_non_singular(self):
-        return 4 * self.__a ** 3 + 27 * self.__b ** 2 != 0
+    def is_non_singular(self, a, b):
+        return 4 * a ** 3 + 27 * b ** 2 != 0
 
     def get_points(self) -> List[Point]:
         points = []
