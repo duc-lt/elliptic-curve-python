@@ -1,7 +1,7 @@
 from typing import List
 from core.point import POINT_AT_INFINITY, Point
 from utils.int_operations import is_prime
-from utils.mod_operations import divide, is_square, square_root
+from utils.mod_operations import divide, is_square, power, square_root
 
 
 class EllipticCurve:
@@ -13,6 +13,7 @@ class EllipticCurve:
             self.__a = 1
             self.__b = 6
         self.__p = p
+        # self.__points = self.get_points_naive()
         self.__points = self.get_points()
 
     def is_non_singular(self, a, b):
@@ -34,6 +35,20 @@ class EllipticCurve:
                 points.append(p2)
             points.append(p1)
 
+        return points
+
+    def get_points_naive(self) -> List[Point]:
+        points = []
+        for x in range(0, self.__p):
+            for y in range(0, self.__p):
+                if (y ** 2) % self.__p == (x ** 3 + self.__a * x + self.__b) % self.__p:
+                    p1 = Point(x, y)
+                    # if y != 0:
+                    #     p2 = Point(x, self.__p - y)
+                    #     points.append(p2)
+                    points.append(p1)
+                    # continue
+        
         return points
 
     def is_on_curve(self, p: Point):

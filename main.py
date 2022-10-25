@@ -23,6 +23,11 @@ def main():
         if curve.is_prime_points_count():
             prime_elliptic_curve.append(p)
             print(f'p = {p}, số điểm = {curve.count_points()}')
+    # p = 151
+    # curve = EllipticCurve(a, b, p)
+    # if curve.is_prime_points_count():
+    #     prime_elliptic_curve.append(p)
+    #     print(f'p = {p}, số điểm = {curve.count_points()}')
     print(f'thời gian tìm p: {time() - start_time}')
 
     rand_index = randrange(0, len(prime_elliptic_curve))
