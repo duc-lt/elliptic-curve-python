@@ -17,22 +17,26 @@ def main():
     # tìm p có 2 chữ số để tổng số điểm trên đường cong elliptic là số nguyên tố
     start_time = time()
     # for p in PRIME_NUMBERS_2_TO_4_DIGITS:
-    for p in prime_3_digits:
+    # for p in prime_3_digits:
     # for p in prime_2_digits:
-        curve = EllipticCurve(a, b, p)
-        if curve.is_prime_points_count():
-            prime_elliptic_curve.append(p)
-            print(f'p = {p}, số điểm = {curve.count_points()}')
-    # p = 151
-    # curve = EllipticCurve(a, b, p)
+        # curve = EllipticCurve(a, b, p)
+        # if curve.is_prime_points_count():
+        #     prime_elliptic_curve.append(p)
+        #     print(f'p = {p}, số điểm = {curve.count_points()}')
+    p = 9973
+    curve = EllipticCurve(a, b, p)
     # if curve.is_prime_points_count():
     #     prime_elliptic_curve.append(p)
     #     print(f'p = {p}, số điểm = {curve.count_points()}')
-    print(f'thời gian tìm p: {time() - start_time}')
+    # print(f'thời gian tìm p: {time() - start_time}')
+    rand_point = curve.get_points()[3]
+    print(rand_point.to_string())
+    print(curve.multiply(rand_point, 123456789).to_string())
+    print(f'Thời gian tính: {time() - start_time}')
 
-    rand_index = randrange(0, len(prime_elliptic_curve))
-    rand_p = prime_elliptic_curve[rand_index]
-    rand_curve = EllipticCurve(a, b, rand_p)
+    # rand_index = randrange(0, len(prime_elliptic_curve))
+    # rand_p = prime_elliptic_curve[rand_index]
+    # rand_curve = EllipticCurve(a, b, rand_p)
     # bảng cửu chương của các điểm thuộc đường cong elliptic
     # với p được chọn ngẫu nhiên trong mảng prime_elliptic_curve
     # print(f'bảng cửu chương với p = {rand_p}')
@@ -49,15 +53,15 @@ def main():
 
     # tìm a, b với 0 <= a, b <= 100 để các đường cong elliptic y^2 = x^3 + ax + b (mod p)
     # có cùng số điểm và số điểm là số nguyên tố, với p nguyên tố
-    points_count = rand_curve.count_points()
-    print(f'Các cặp giá trị (a, b) sao cho đường cong y^2 = x^3 + ax + b (mod {rand_p}) có cùng số điểm:')
-    start_time_2 = time()
-    for a_i in range(1, 101):
-        for b_i in range(1, 101):
-            curve = EllipticCurve(a_i, b_i, rand_p)
-            if curve.count_points() == points_count:
-                print(f'({a_i}, {b_i})')
-    print(f'thời gian tìm các cặp (a, b): {time() - start_time_2}')
+    # points_count = rand_curve.count_points()
+    # print(f'Các cặp giá trị (a, b) sao cho đường cong y^2 = x^3 + ax + b (mod {rand_p}) có cùng số điểm:')
+    # start_time_2 = time()
+    # for a_i in range(1, 101):
+    #     for b_i in range(1, 101):
+    #         curve = EllipticCurve(a_i, b_i, rand_p)
+    #         if curve.count_points() == points_count:
+    #             print(f'({a_i}, {b_i})')
+    # print(f'thời gian tìm các cặp (a, b): {time() - start_time_2}')
 
 
 if __name__ == '__main__':

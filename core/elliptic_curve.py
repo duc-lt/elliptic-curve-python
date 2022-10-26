@@ -1,7 +1,7 @@
 from typing import List
 from core.point import POINT_AT_INFINITY, Point
 from utils.int_operations import is_prime
-from utils.mod_operations import divide, is_square, power, square_root
+from utils.mod_operations import divide, is_square, multiply, square_root
 
 
 class EllipticCurve:
@@ -13,13 +13,13 @@ class EllipticCurve:
             self.__a = 1
             self.__b = 6
         self.__p = p
-        # self.__points = self.get_points_naive()
-        self.__points = self.get_points()
+        # self.__points = self.find_points_naive()
+        self.__points = self.find_points()
 
     def is_non_singular(self, a, b):
         return 4 * a ** 3 + 27 * b ** 2 != 0
 
-    def get_points(self) -> List[Point]:
+    def find_points(self) -> List[Point]:
         points = []
         for x in range(0, self.__p):
             global y
@@ -37,7 +37,10 @@ class EllipticCurve:
 
         return points
 
-    def get_points_naive(self) -> List[Point]:
+    def get_points(self):
+        return self.__points
+
+    def find_points_naive(self) -> List[Point]:
         points = []
         for x in range(0, self.__p):
             for y in range(0, self.__p):
@@ -80,14 +83,18 @@ class EllipticCurve:
 
         return POINT_AT_INFINITY
 
-    def multiply(self, p: Point, k: int):
-        point_prod = Point(p.get_x(), p.get_y())
-        if self.is_on_curve(p) and k > 0:
-            for _ in range(1, k):
-                point_prod = point_prod.assign(self.add(point_prod, p))
-            return point_prod
+    def double(self, p: Point):
+        return self.add(p, p)
 
-        return POINT_AT_INFINITY
+    def multiply(self, p: Point, k: int):
+        # thuật toán double-and-add
+        if k == 0 or p.equals_to(POINT_AT_INFINITY):
+            return POINT_AT_INFINITY
+        if k == 1:
+            return p
+        if k % 2 == 1:
+            return self.add(p, self.multiply(p, k - 1))
+        return self.multiply(self.double(p), k / 2)
 
     def get_times_table(self, p: Point):
         k = 1
