@@ -36,12 +36,17 @@ def divide(a, b, mod):
 
 
 def power(a, b, mod):
-    if mod == 1:
-        return 0
-    result = 1
-    for _ in range(0, int(b)):
-        result = multiply(result, a, mod)
-    return result
+    # if mod == 1:
+    #     return 0
+    # result = 1
+    # for _ in range(0, int(b)):
+    #     result = multiply(result, a, mod)
+    # return result
+    if b == 0:
+        return 1
+    if b % 2 == 1:
+        return multiply(a, power(a * a, (b - 1) / 2, mod), mod)
+    return power(a * a, b / 2, mod)
 
 
 def is_square(a, mod):

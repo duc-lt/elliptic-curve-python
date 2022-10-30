@@ -3,18 +3,37 @@ from time import time
 from core.elliptic_curve import EllipticCurve
 from core.point import POINT_AT_INFINITY
 from utils.constants import PRIME_NUMBERS_2_TO_4_DIGITS
+from utils.mod_operations import power
 
 
 def main():
-    a, b = 1, 6
+    a1, b1, p1 = 1, 6, 307 # 331 điểm
+    curve1 = EllipticCurve(a1, b1, p1)
+    curve1_points_count = curve1.count_points()
+    p2 = 151
+    """
+    Tìm a2, b2, p2 sao cho 2 đường cong (a1, b1, p1) và (a2, b2, p2) có
+    số điểm bằng nhau và nguyên tố
+    """
+    global a2, b2
+    for a2 in range(1, 100):
+        for b2 in range(1, 100):
+            curve2 = EllipticCurve(a2, b2, p2)
+            if curve2.count_points() == curve1_points_count:
+                print(f'(a2, b2) = ({a2}, {b2})')
+                break
 
-    # các giá trị p sao cho tổng số điểm
-    # trên đường cong elliptic là số nguyên tó
+    """
+    Tìm các giá trị p sao cho tổng số điểm
+    trên đường cong elliptic là số nguyên tó
+    """
     prime_elliptic_curve = []
     prime_2_digits = list(filter(lambda x: 10 <= x <= 99, PRIME_NUMBERS_2_TO_4_DIGITS))
     prime_3_digits = list(filter(lambda x: 100 <= x <= 999, PRIME_NUMBERS_2_TO_4_DIGITS))
 
-    # tìm p có 2 chữ số để tổng số điểm trên đường cong elliptic là số nguyên tố
+    """
+    Tìm p có 2 chữ số để tổng số điểm trên đường cong elliptic là số nguyên tố
+    """
     start_time = time()
     # for p in PRIME_NUMBERS_2_TO_4_DIGITS:
     # for p in prime_3_digits:
@@ -23,22 +42,21 @@ def main():
         # if curve.is_prime_points_count():
         #     prime_elliptic_curve.append(p)
         #     print(f'p = {p}, số điểm = {curve.count_points()}')
-    p = 9973
-    curve = EllipticCurve(a, b, p)
+    # p = 7919
+    # curve = EllipticCurve(a, b, p)
+    # print(curve.count_points())
     # if curve.is_prime_points_count():
     #     prime_elliptic_curve.append(p)
     #     print(f'p = {p}, số điểm = {curve.count_points()}')
-    # print(f'thời gian tìm p: {time() - start_time}')
-    rand_point = curve.get_points()[3]
-    print(rand_point.to_string())
-    print(curve.multiply(rand_point, 123456789).to_string())
-    print(f'Thời gian tính: {time() - start_time}')
+    # print(f'Thời gian tính: {time() - start_time}')
 
     # rand_index = randrange(0, len(prime_elliptic_curve))
     # rand_p = prime_elliptic_curve[rand_index]
     # rand_curve = EllipticCurve(a, b, rand_p)
-    # bảng cửu chương của các điểm thuộc đường cong elliptic
-    # với p được chọn ngẫu nhiên trong mảng prime_elliptic_curve
+    """
+    Bảng cửu chương của các điểm thuộc đường cong elliptic
+    với p được chọn ngẫu nhiên trong mảng prime_elliptic_curve
+    """
     # print(f'bảng cửu chương với p = {rand_p}')
     # global point
     # while True:
@@ -51,8 +69,10 @@ def main():
     # print(f'thời gian liệt kê bảng cửu chương: {time() - start_time}')
 
 
-    # tìm a, b với 0 <= a, b <= 100 để các đường cong elliptic y^2 = x^3 + ax + b (mod p)
-    # có cùng số điểm và số điểm là số nguyên tố, với p nguyên tố
+    """
+    Tìm a, b với 0 <= a, b <= 100 để các đường cong elliptic y^2 = x^3 + ax + b (mod p)
+    có cùng số điểm và số điểm là số nguyên tố, với p nguyên tố
+    """
     # points_count = rand_curve.count_points()
     # print(f'Các cặp giá trị (a, b) sao cho đường cong y^2 = x^3 + ax + b (mod {rand_p}) có cùng số điểm:')
     # start_time_2 = time()
