@@ -129,3 +129,12 @@ class EllipticCurve:
 
     def is_prime_points_count(self):
         return is_prime(self.count_points())
+
+    def get_a(self):
+        return self.__a
+
+    def get_b(self):
+        return self.__b
+
+    def get_p(self):
+        return self.__p
