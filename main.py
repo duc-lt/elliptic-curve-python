@@ -15,13 +15,13 @@ def main():
     Tìm a2, b2, p2 sao cho 2 đường cong (a1, b1, p1) và (a2, b2, p2) có
     số điểm bằng nhau và nguyên tố
     """
-    global a2, b2
-    for a2 in range(1, 100):
-        for b2 in range(1, 100):
-            curve2 = EllipticCurve(a2, b2, p2)
-            if curve2.count_points() == curve1_points_count:
-                print(f'(a2, b2) = ({a2}, {b2})')
-                break
+    # global a2, b2
+    # for a2 in range(1, 100):
+    #     for b2 in range(1, 100):
+    #         curve2 = EllipticCurve(a2, b2, p2)
+    #         if curve2.count_points() == curve1_points_count:
+    #             print(f'(a2, b2) = ({a2}, {b2})')
+    #             break
 
     """
     Tìm các giá trị p sao cho tổng số điểm
@@ -30,25 +30,15 @@ def main():
     prime_elliptic_curve = []
     prime_2_digits = list(filter(lambda x: 10 <= x <= 99, PRIME_NUMBERS_2_TO_4_DIGITS))
     prime_3_digits = list(filter(lambda x: 100 <= x <= 999, PRIME_NUMBERS_2_TO_4_DIGITS))
-
-    """
-    Tìm p có 2 chữ số để tổng số điểm trên đường cong elliptic là số nguyên tố
-    """
     start_time = time()
     # for p in PRIME_NUMBERS_2_TO_4_DIGITS:
-    # for p in prime_3_digits:
+    for p in prime_3_digits:
     # for p in prime_2_digits:
-        # curve = EllipticCurve(a, b, p)
-        # if curve.is_prime_points_count():
-        #     prime_elliptic_curve.append(p)
-        #     print(f'p = {p}, số điểm = {curve.count_points()}')
-    # p = 7919
-    # curve = EllipticCurve(a, b, p)
-    # print(curve.count_points())
-    # if curve.is_prime_points_count():
-    #     prime_elliptic_curve.append(p)
-    #     print(f'p = {p}, số điểm = {curve.count_points()}')
-    # print(f'Thời gian tính: {time() - start_time}')
+        curve = EllipticCurve(a1, b1, p)
+        if curve.is_prime_points_count():
+            prime_elliptic_curve.append(p)
+            print(f'p = {p}, số điểm = {curve.count_points()}')
+    print(f'Thời gian tính: {time() - start_time}')
 
     # rand_index = randrange(0, len(prime_elliptic_curve))
     # rand_p = prime_elliptic_curve[rand_index]
@@ -84,5 +74,5 @@ def main():
     # print(f'thời gian tìm các cặp (a, b): {time() - start_time_2}')
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

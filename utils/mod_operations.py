@@ -2,8 +2,10 @@ from utils.int_operations import is_coprime, is_odd_prime, to_base_2
 
 
 def inverse(a, mod):
-    # thuật toán Euclid mở rộng
-    # https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
+    """
+    Thuật toán Euclid mở rộng
+    https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
+    """
     if not isinstance(a, int) or not isinstance(mod, int):
         return
     if not is_coprime(a, mod):
@@ -36,12 +38,6 @@ def divide(a, b, mod):
 
 
 def power(a, b, mod):
-    # if mod == 1:
-    #     return 0
-    # result = 1
-    # for _ in range(0, int(b)):
-    #     result = multiply(result, a, mod)
-    # return result
     if b == 0:
         return 1
     if b % 2 == 1:
@@ -50,13 +46,17 @@ def power(a, b, mod):
 
 
 def is_square(a, mod):
-    # tiêu chuẩn Euler (Euler's criterion)
-    # https://en.wikipedia.org/wiki/Euler%27s_criterion
+    """
+    Tiêu chuẩn Euler (Euler's criterion)
+    https://en.wikipedia.org/wiki/Euler%27s_criterion
+    """
     return (a % mod == 0) or (is_odd_prime(mod) and power(a, (mod - 1) / 2, mod) == 1)
 
 
 def find_least_non_residue(mod):
-    # tìm z nhỏ nhất sao cho z^((mod - 1) / 2) % mod = mod - 1
+    """
+    Tìm z nhỏ nhất sao cho z^((mod - 1) / 2) % mod = mod - 1
+    """
     z = 2
     while power(z, (mod - 1) / 2, mod) != mod - 1:
         z += 1
@@ -64,8 +64,10 @@ def find_least_non_residue(mod):
 
 
 def square_root(a, mod):
-    # thuật toán Tonelli-Shanks
-    # https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm
+    """
+    Thuật toán Tonelli-Shanks
+    https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm
+    """
     if is_square(a, mod):
         q, s = to_base_2(mod - 1)
         z = find_least_non_residue(mod)

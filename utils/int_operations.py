@@ -16,7 +16,9 @@ def is_coprime(a, b):
 
 
 def to_base_2(a):
-    # phân tích a về dạng a = q.2^s, với q lẻ
+    """
+    Phân tích a về dạng a = q.2^s, với q lẻ
+    """
     q, s = a, 0
     while q % 2 == 0:
         q /= 2
