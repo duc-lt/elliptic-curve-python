@@ -2,10 +2,15 @@ from core.elliptic_curve import EllipticCurve
 
 
 def week_2():
-    a_1, b_1, p_1 = 1, 6, 11
-    curve_1 = EllipticCurve(a_1, b_1, p_1)
-    """
-    Phép cộng 2 điểm
-    """
+    a, b, p = 2, 21, 101
+    curve = EllipticCurve(a, b, p)
+    with open('times_tables.txt', 'w') as f:
+        print(curve.count_points())
+        f.write(curve.get_times_tables())
+    f.close()
+
+
+week_2()
+        
     
 

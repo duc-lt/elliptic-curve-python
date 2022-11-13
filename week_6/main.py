@@ -1,34 +1,34 @@
-from random import choice
 from core.elliptic_curve import EllipticCurve
-from utils.constants import PRIME_NUMBER_4_DIGITS
+from utils.constants import PRIME_NUMBER_3_DIGITS
 
 
 def main():
     """
-    Liệt kê 20 cặp (a, b) với 0 < a <= 100 và 0 < b <= 100 sao cho đường cong
-    elliptic có số điểm nguyên tố, với p nguyên tố có 4 chữ số bất kỳ
+    Liệt kê 20 cặp (a, b) với 0 < a <= 26 và 0 < b <= 26 sao cho đường cong
+    elliptic có số điểm nguyên tố, với p nguyên tố có 3 chữ số
     """
-    p = choice(PRIME_NUMBER_4_DIGITS)
-    print(f'p = {p}')
-    curves = []
-    count = 0
-    for a in range(1, 101):
-        for b in range(1, 101):
-            curve = EllipticCurve(a, b, p)
-            points_count = curve.count_points()
-            if curve.is_prime_points_count():
-                count += 1
-                curves.append((p, (a, b), points_count))
-                print(f'{count}. (a, b) = ({a}, {b}), số điểm: {points_count}')
-                if count == 20:
-                    print(f'count: {count}')
-                    break
-        else:
-            continue
-        break
-
-
-    print(curve[0])
+    with open('prime_order.txt', 'w') as prime_order:
+        for p in PRIME_NUMBER_3_DIGITS:
+            prime_order.write(f'p = {p}\n')
+            curves = []
+            count = 0
+            for a in range(1, 27):
+                for b in range(1, 27):
+                    curve = EllipticCurve(a, b, p)
+                    points_count = curve.count_points()
+                    if curve.is_prime_points_count():
+                        count += 1
+                        curves.append((p, (a, b), points_count))
+                        # print(f'{count}. (a, b) = ({a}, {b}), số điểm: {points_count}')
+                        prime_order.write(f'{count}. (a, b) = ({a}, {b}), số điểm: {points_count}\n')
+                        if count == 20:
+                            prime_order.write('\n')
+                            break
+                else:
+                    continue
+                break
+    
+    prime_order.close()
 
 
 if __name__ == '__main__':

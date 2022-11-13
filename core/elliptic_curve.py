@@ -1,3 +1,4 @@
+from math import inf
 from typing import List
 from core.point import POINT_AT_INFINITY, Point
 from utils.int_operations import is_prime
@@ -6,20 +7,21 @@ from utils.mod_operations import divide, is_square, multiply, square_root
 
 class EllipticCurve:
     def __init__(self, a, b, p) -> None:
-        if self.is_non_singular(a, b):
+        if self.is_non_singular(a, b, p):
             self.__a = a
             self.__b = b
         else:
-            self.__a = 1
-            self.__b = 6
+            self.__a = inf
+            self.__b = inf
         self.__p = p
-        # self.__points = self.find_points_naive()
         self.__points = self.find_points()
 
-    def is_non_singular(self, a, b):
-        return 4 * a ** 3 + 27 * b ** 2 != 0
+    def is_non_singular(self, a, b, p):
+        return (4 * a ** 3 + 27 * b ** 2) % p != 0
 
     def find_points(self) -> List[Point]:
+        if self.__a == inf and self.__b == inf:
+            return []
         points = []
         for x in range(0, self.__p):
             global y
@@ -40,25 +42,15 @@ class EllipticCurve:
     def get_points(self):
         return self.__points
 
-    def find_points_naive(self) -> List[Point]:
-        points = []
-        for x in range(0, self.__p):
-            for y in range(0, self.__p):
-                if (y ** 2) % self.__p == (x ** 3 + self.__a * x + self.__b) % self.__p:
-                    p1 = Point(x, y)
-                    # if y != 0:
-                    #     p2 = Point(x, self.__p - y)
-                    #     points.append(p2)
-                    points.append(p1)
-                    # continue
-        
-        return points
-
     def is_on_curve(self, p: Point):
+        if self.__a == inf and self.__b == inf:
+            return False
         x, y = p.get_x(), p.get_y()
         return (y ** 2) % self.__p == (x ** 3 + self.__a * x + self.__b) % self.__p
 
     def add(self, p1: Point, p2: Point):
+        if self.__a == inf and self.__b == inf:
+            return POINT_AT_INFINITY
         if self.is_on_curve(p1) and self.is_on_curve(p2):
             x1, y1 = p1.get_x(), p1.get_y()
             x2, y2 = p2.get_x(), p2.get_y()
@@ -108,10 +100,10 @@ class EllipticCurve:
         return table
 
     def get_times_tables(self):
-        tables = f'Bảng cửu chương của {self.to_string()}'
+        tables = f'Bảng cửu chương của {self.to_string()}\n'
         for i, p in enumerate(self.__points):
             k = 1
-            table = f'P_{i}({p.get_x()}, {p.get_y()})'
+            table = f'P_{i}({p.get_x()}, {p.get_y()})\n'
             while not self.multiply(p, k).equals_to(POINT_AT_INFINITY):
                 point_prod = self.multiply(p, k)
                 table += f' - {k if k > 1 else ""}P_{i} = {point_prod.to_string()}\n'
