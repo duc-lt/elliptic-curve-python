@@ -1,6 +1,6 @@
 from typing import List
 from core.point import POINT_AT_INFINITY, Point
-from utils.int_operations import is_prime
+from utils.aks import is_prime
 from utils.mod_operations import divide, is_square, multiply, square_root
 
 
@@ -138,3 +138,28 @@ class EllipticCurve:
 
     def get_p(self):
         return self.__p
+
+    def add_with_Pm(self, p1: Point, p2: Point):
+        if p1 and p2:
+            x1, y1 = p1.get_x(), p1.get_y()
+            x2, y2 = p2.get_x(), p2.get_y()
+            if (p1.equals_to(p2) and y1 == 0) or (not p1.equals_to(p2) and x1 == x2):
+                return POINT_AT_INFINITY
+
+            global slope
+            if p1.equals_to(p2):
+                slope = divide(3 * x1 ** 2 + self.__a, 2 * y1, self.__p)
+            else:
+                slope = divide(y2 - y1, x2 - x1, self.__p)
+            x_sum = (slope ** 2 - x1 - x2) % self.__p
+            y_sum = (slope * (x1 - x_sum) - y1) % self.__p
+
+            return Point(x_sum, y_sum)
+
+        if p1.equals_to(POINT_AT_INFINITY) and self.is_on_curve(p2):
+            return p2
+
+        if p2.equals_to(POINT_AT_INFINITY) and self.is_on_curve(p1):
+            return p1
+
+        return POINT_AT_INFINITY

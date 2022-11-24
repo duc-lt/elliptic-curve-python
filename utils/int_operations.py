@@ -1,11 +1,37 @@
 from math import gcd
+from random import randrange
 
+from utils.aks import is_prime
 
-def is_prime(a):
-    if a < 2 or any(a % i == 0 for i in range(2, a)):
+def miller_rabin_algorithm(n):
+    assert n >= 2
+    if n == 2:
+        return True
+    if n % 2 == 0:
         return False
+    s = 0
+    d = n - 1
+    while True:
+        quotient, remainder = divmod(d, 2)
+        if remainder == 1:
+            break
+        s += 1
+        d = quotient
+    assert 2 ** s * d == n - 1
+    
+    for i in range(100):
+        a = randrange(2, n)
+        if try_composite(a, d, n, s):
+            return False
     return True
 
+def try_composite(a, d, n, s):
+    if pow(a, d, n) == 1:
+        return False
+    for i in range(s):
+        if pow(a, 2**i * d, n) == n-1:
+            return False
+    return True
 
 def is_odd_prime(a):
     return is_prime(a) and a % 2 == 1
