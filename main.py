@@ -1,9 +1,6 @@
-from random import randrange
+
 from time import time
 from core.elliptic_curve import EllipticCurve
-from core.point import POINT_AT_INFINITY
-from utils.constants import PRIME_NUMBERS_2_TO_4_DIGITS
-from utils.mod_operations import power
 
 
 def main():

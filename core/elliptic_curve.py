@@ -96,6 +96,24 @@ class EllipticCurve:
             return self.add(p, self.multiply(p, k - 1))
         return self.multiply(self.double(p), k / 2)
 
+    def testBit(self, k: int, idx):
+        return True if k and (1 << idx) else False
+
+    def another_multiply(self, p: Point, k: int):
+        # thuật toán double-and-add
+        r0 = Point(0, 1)
+        r1 = p
+        idx = k.bit_length()
+        while(idx >= 0):
+            idx -= 1
+            if self.testBit(k, idx):
+                r0 = self.add(r0, r1)
+                r1 = self.double(r1)
+            else:
+                r1 = self.add(r0, r1)
+                r0 = self.double(r0)
+        return r0
+
     def get_times_table(self, p: Point):
         k = 1
         table = f'P({p.get_x()}, {p.get_y()}):\n'
